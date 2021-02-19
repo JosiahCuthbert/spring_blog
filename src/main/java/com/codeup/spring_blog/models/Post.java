@@ -1,15 +1,32 @@
 package com.codeup.spring_blog.models;
+import com.sun.istack.Nullable;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class Post {
 
-    private String title;
-    private String body;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(11) UNSIGNED")
     private long id;
+
+    @Column(nullable = false, length = 100)
+    private String title;
+
+    @Column(nullable = false)
+    private String body;
+
 
     public Post(String title, String body, long id){
         this.title = title;
         this.body = body;
         this.id = id;
+    }
+
+    public Post() {
+
     }
 
     public String getTitle() {
