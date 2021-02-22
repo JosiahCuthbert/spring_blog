@@ -30,10 +30,33 @@ public class PostController {
         return "posts/show";
     }
 
+    @GetMapping("/posts/{id}/edit")
+    public String editPostForm(@PathVariable long id, Model model){
+        model.addAttribute("post", postDao.getOne(id));
+        return "posts/edit";
+    }
+
+    @PostMapping("/posts/{id}/edit")
+    public String editPost(@PathVariable long id, @RequestParam String title, @RequestParam String body){
+        Post post = new Post(
+                title,
+                body,
+                id
+        );
+        postDao.save(post);
+        return "redirect:/posts";
+    }
+
+    @PostMapping("/posts/{id}/delete")
+    public String deletePost(@PathVariable long id){
+        postDao.deleteById(id);
+        return "redirect:/posts";
+    }
+
     @GetMapping("/posts/create")
     @ResponseBody
-    public String createPostForm(){
-        return "create post form";
+    public String createPostForm(Model model){
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
