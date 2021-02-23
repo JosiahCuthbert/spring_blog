@@ -40,15 +40,26 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String editPost(@PathVariable long id, @RequestParam String title, @RequestParam String body){
-        Post post = new Post(
-                title,
-                body,
-                id
-        );
+    public String editPost(@PathVariable long id, @ModelAttribute Post post){
+//        Post post = new Post(
+//                title,
+//                body,
+//                id
+//        );
         postDao.save(post);
         return "redirect:/posts";
     }
+
+//    @PostMapping("/posts/{id}/edit")
+//    public String editPost(@PathVariable long id, @RequestParam String title, @RequestParam String body){
+//        Post post = new Post(
+//                title,
+//                body,
+//                id
+//        );
+//        postDao.save(post);
+//        return "redirect:/posts";
+//    }
 
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable long id){
@@ -57,29 +68,19 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    public String createPostForm(){
+    public String createPostForm(Model model){
+        model.addAttribute("post", new Post());
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@RequestParam String title, @RequestParam String body){
-
+    public String createPost(@ModelAttribute Post post){
         User user = userDao.getOne(1L);
-        Post post = new Post();
         post.setUser(user);
-        post.setTitle(title);
-        post.setBody(body);
+        post.setTitle(post.getTitle());
+        post.setBody(post.getBody());
         postDao.save(post);
         return "redirect:/posts";
     }
-
-
-//    User user = userDao.getOne(1L); // just use the first user in the db
-//    Ad ad = new Ad();
-//    ad.setTitle("Bike for sale");
-//    ad.setDescription("7 speed bike in good condition.");
-//    ad.setOwner(user);
-//    adDao.save(ad);
-
 
 }
