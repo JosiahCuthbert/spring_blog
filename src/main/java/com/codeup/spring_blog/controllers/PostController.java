@@ -4,6 +4,7 @@ import com.codeup.spring_blog.models.Post;
 import com.codeup.spring_blog.models.User;
 import com.codeup.spring_blog.repositories.PostRepository;
 import com.codeup.spring_blog.repositories.UserRepository;
+import com.codeup.spring_blog.services.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,12 @@ public class PostController {
 
     private final UserRepository userDao;
 
-    public PostController(PostRepository postDao, UserRepository userDao){
+    private final EmailService emailService;
+
+    public PostController(PostRepository postDao, UserRepository userDao, EmailService emailService){
         this.postDao = postDao;
         this.userDao = userDao;
+        this.emailService = emailService;
     }
 
     @GetMapping("/posts")
@@ -41,25 +45,9 @@ public class PostController {
 
     @PostMapping("/posts/{id}/edit")
     public String editPost(@PathVariable long id, @ModelAttribute Post post){
-//        Post post = new Post(
-//                title,
-//                body,
-//                id
-//        );
         postDao.save(post);
         return "redirect:/posts";
     }
-
-//    @PostMapping("/posts/{id}/edit")
-//    public String editPost(@PathVariable long id, @RequestParam String title, @RequestParam String body){
-//        Post post = new Post(
-//                title,
-//                body,
-//                id
-//        );
-//        postDao.save(post);
-//        return "redirect:/posts";
-//    }
 
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable long id){
@@ -80,6 +68,7 @@ public class PostController {
         post.setTitle(post.getTitle());
         post.setBody(post.getBody());
         postDao.save(post);
+        emailService.prepareAndSend(post, "New Post Created", "A new post was created by user " + user.getUsername() + ". The post title is " + post.getTitle() + ".");
         return "redirect:/posts";
     }
 
