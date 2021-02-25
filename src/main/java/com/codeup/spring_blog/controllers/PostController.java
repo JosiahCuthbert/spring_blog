@@ -4,6 +4,7 @@ import com.codeup.spring_blog.models.Post;
 import com.codeup.spring_blog.models.User;
 import com.codeup.spring_blog.repositories.PostRepository;
 import com.codeup.spring_blog.repositories.UserRepository;
+import com.codeup.spring_blog.services.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,15 @@ public class PostController {
 
     private final UserRepository userDao;
 
-    public PostController(PostRepository postDao, UserRepository userDao){
+    private final EmailService emailService;
+
+    public PostController(PostRepository postDao, UserRepository userDao, EmailService emailService){
         this.postDao = postDao;
         this.userDao = userDao;
+        this.emailService = emailService;
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/")
     public String allPosts(Model model){
         model.addAttribute("posts", postDao.findAll());
         return "posts/index";
@@ -40,30 +44,23 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String editPost(@PathVariable long id, @ModelAttribute Post post){
-//        Post post = new Post(
-//                title,
-//                body,
-//                id
-//        );
+    public String editPost(@ModelAttribute Post post){
         postDao.save(post);
+
+        String subject = "Post Edited";
+        String body = "The post titled " + post.getTitle() + "was edited.";
+        emailService.prepareAndSend(post, subject, body);
         return "redirect:/posts";
     }
 
-//    @PostMapping("/posts/{id}/edit")
-//    public String editPost(@PathVariable long id, @RequestParam String title, @RequestParam String body){
-//        Post post = new Post(
-//                title,
-//                body,
-//                id
-//        );
-//        postDao.save(post);
-//        return "redirect:/posts";
-//    }
-
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable long id){
+        Post post = postDao.getOne(id);
         postDao.deleteById(id);
+
+        String subject = "Post Deleted";
+        String body = "The post titled " + post.getTitle() + "was deleted.";
+        emailService.prepareAndSend(post, subject, body);
         return "redirect:/posts";
     }
 
@@ -80,6 +77,10 @@ public class PostController {
         post.setTitle(post.getTitle());
         post.setBody(post.getBody());
         postDao.save(post);
+
+        String subject = "New Post Created";
+        String body = "A new post was created by user " + user.getUsername() + ". The post title is " + post.getTitle() + ".";
+        emailService.prepareAndSend(post, subject, body);
         return "redirect:/posts";
     }
 
