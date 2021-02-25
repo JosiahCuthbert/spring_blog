@@ -24,7 +24,7 @@ public class PostController {
         this.emailService = emailService;
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/")
     public String allPosts(Model model){
         model.addAttribute("posts", postDao.findAll());
         return "posts/index";
@@ -44,14 +44,23 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String editPost(@PathVariable long id, @ModelAttribute Post post){
+    public String editPost(@ModelAttribute Post post){
         postDao.save(post);
+
+        String subject = "Post Edited";
+        String body = "The post titled " + post.getTitle() + "was edited.";
+        emailService.prepareAndSend(post, subject, body);
         return "redirect:/posts";
     }
 
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable long id){
+        Post post = postDao.getOne(id);
         postDao.deleteById(id);
+
+        String subject = "Post Deleted";
+        String body = "The post titled " + post.getTitle() + "was deleted.";
+        emailService.prepareAndSend(post, subject, body);
         return "redirect:/posts";
     }
 
@@ -68,7 +77,10 @@ public class PostController {
         post.setTitle(post.getTitle());
         post.setBody(post.getBody());
         postDao.save(post);
-        emailService.prepareAndSend(post, "New Post Created", "A new post was created by user " + user.getUsername() + ". The post title is " + post.getTitle() + ".");
+
+        String subject = "New Post Created";
+        String body = "A new post was created by user " + user.getUsername() + ". The post title is " + post.getTitle() + ".";
+        emailService.prepareAndSend(post, subject, body);
         return "redirect:/posts";
     }
 

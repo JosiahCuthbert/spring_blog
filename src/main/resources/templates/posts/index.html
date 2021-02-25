@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>posts</title>
-</head>
+<head th:replace="partials/head :: header-links"></head>
 <body>
+
+<nav th:replace="/partials/navbar :: navbar"></nav>
 
 <!-- This is where we iterate through the Posts ArrayList -->
 <h1>Here are all the posts!</h1>
@@ -20,6 +20,8 @@
         <button>View</button>
     </form>
 </div>
+
+<script th:replace="/partials/scripts :: assets"></script>
 
 </body>
 </html>
