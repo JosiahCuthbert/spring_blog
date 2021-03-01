@@ -25,6 +25,11 @@ public class PostController {
     }
 
     @GetMapping("/")
+    public String home(){
+        return "redirect:/posts";
+    }
+
+    @GetMapping("/posts")
     public String allPosts(Model model){
         model.addAttribute("posts", postDao.findAll());
         return "posts/index";
