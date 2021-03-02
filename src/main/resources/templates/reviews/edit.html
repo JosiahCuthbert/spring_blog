@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/head :: header-links"></head>
+<body>
+    <nav th:replace="partials/navbar :: navbar"></nav>
+
+
+    <h1>Edit Post</h1>
+    <form th:action="@{|/reviews/${review.id}/edit|}" th:method="post" th:object="${review}">
+
+        <label for="title">Title</label>
+        <input type="text" id="title" th:field="*{title}" th:value="${review.title}">
+
+        <label for="body">Body</label>
+        <textarea id="body" th:field="*{body}" th:text="${review.body}"></textarea>
+
+        <button type="submit">Update</button>
+    </form>
+
+    <form th:action="@{|/reviews/${review.id}/delete|}" th:method="POST">
+        <button>Delete</button>
+    </form>
+
+    <script th:replace="partials/scripts :: assets"></script>
+
+</body>
+</html>

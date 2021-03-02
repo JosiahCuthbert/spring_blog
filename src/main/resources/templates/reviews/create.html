@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="partials/head :: header-links"></head>
+<body>
+    <nav th:replace="partials/navbar :: navbar"></nav>
+
+    <form th:action="@{|/reviews/create|}" th:method="post" th:object="${review}">
+        <label for="title">Title</label>
+        <input th:field="*{title}" id="title"/>
+        <br />
+        <label for="body">Body</label>
+        <input th:field="*{body}" id="body"/>
+        <br />
+        <input type="submit" value="Create"/>
+    </form>
+
+    <script th:replace="partials/scripts :: assets"></script>
+</body>
+</html>

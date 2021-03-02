@@ -18,6 +18,12 @@ public class Post {
     @Column(nullable = false)
     private String body;
 
+    @Column(nullable = false)
+    private String type;
+
+    @Column(nullable = false)
+    private String image;
+
     public User getUser() {
         return user;
     }
@@ -29,9 +35,11 @@ public class Post {
     @ManyToOne
         private User user;
 
-        public Post(String title, String body, long id){
+        public Post(String title, String body, String type, String image, long id){
             this.title = title;
             this.body = body;
+            this.type = type;
+            this.image = image;
             this.id = id;
         }
 
@@ -39,27 +47,44 @@ public class Post {
 
         }
 
-        public String getTitle() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTitle() {
             return title;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
-        }
+            public void setTitle(String title) {
+                this.title = title;
+            }
 
-        public String getBody() {
-            return body;
-        }
+            public String getBody() {
+                return body;
+            }
 
-        public void setBody(String body) {
-            this.body = body;
-        }
+            public void setBody(String body) {
+                this.body = body;
+            }
 
-        public long getId() {
-            return id;
-        }
+            public long getId() {
+                return id;
+            }
 
-        public void setId(long id) {
+            public void setId(long id) {
             this.id = id;
         }
 }

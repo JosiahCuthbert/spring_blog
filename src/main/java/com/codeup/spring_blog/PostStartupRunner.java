@@ -2,11 +2,12 @@ package com.codeup.spring_blog;
 
 
 import com.codeup.spring_blog.models.Post;
+import com.codeup.spring_blog.models.Review;
 import com.codeup.spring_blog.models.User;
 import com.codeup.spring_blog.repositories.PostRepository;
+import com.codeup.spring_blog.repositories.ReviewRepository;
 import com.codeup.spring_blog.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +16,13 @@ public class PostStartupRunner implements CommandLineRunner {
 
     private final UserRepository userDao;
     private final PostRepository postDao;
+    private final ReviewRepository reviewDao;
     private final PasswordEncoder encoder;
 
-    public PostStartupRunner(UserRepository userDao, PostRepository postDao, PasswordEncoder encoder) {
+    public PostStartupRunner(UserRepository userDao, PostRepository postDao, ReviewRepository reviewDao, PasswordEncoder encoder) {
         this.userDao = userDao;
         this.postDao = postDao;
+        this.reviewDao = reviewDao;
         this.encoder = encoder;
     }
 
@@ -40,7 +43,17 @@ public class PostStartupRunner implements CommandLineRunner {
         Post post = new Post();
         post.setTitle("Demo title");
         post.setBody("Demo body");
+        post.setType("post");
+        post.setImage("post");
         post.setUser(user);
         postDao.save(post);
+
+        Review review = new Review();
+        review.setTitle("Demo title");
+        review.setBody("Demo body");
+        review.setUser(user);
+        review.setImage("test");
+        review.setRating(4);
+        reviewDao.save(review);
     }
 }
