@@ -1,3 +1,15 @@
+/*shared*/
+
 body{
     background-color: ghostwhite;
+}
+
+/*tunes*/
+
+#classics, #ambient, #modern, #community{
+    display: none;
+}
+
+#jazz{
+    display: block;
 }
