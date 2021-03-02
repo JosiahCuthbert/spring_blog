@@ -9,17 +9,17 @@
     <div id="tunes-sidebar">
         <div class="sidebar-select" id="gif-select">
             <label for="choose-gif">Choose your mood</label>
-            <select name="choose-gif" id="choose-gif">
+            <select class="form-control form-control-sm" name="choose-gif" id="choose-gif">
                 <option class="playlist-option" value="rainy">Rainy</option>
-                <option class="playlist-option" value="ambient">Mountain Stream</option>
-                <option class="playlist-option" value="modern">The City at Night</option>
-                <option class="playlist-option" value="classics">Snowy</option>
-                <option class="playlist-option" value="community">Forest</option>
+                <option class="playlist-option" value="mountain-stream">Mountain Stream</option>
+                <option class="playlist-option" value="nighttime">The City at Night</option>
+                <option class="playlist-option" value="snowy">Snowy</option>
+                <option class="playlist-option" value="forest">Forest</option>
             </select>
         </div>
         <div class="sidebar-select" id="playlist-select">
             <label for="choose-playlist">Choose your tunes</label>
-            <select name="choose-playlist" id="choose-playlist">
+            <select class="form-control form-control-sm" name="choose-playlist" id="choose-playlist">
                 <option class="playlist-option" value="jazz">Jazz</option>
                 <option class="playlist-option" value="ambient">Ambient</option>
                 <option class="playlist-option" value="modern">Modern</option>
@@ -33,10 +33,16 @@
             <iframe class="spotify-embed" id="ambient" src="https://open.spotify.com/embed/playlist/2svVcFgNej7NKP7aOY0Qrm" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
             <iframe class="spotify-embed" id="community" src="https://open.spotify.com/embed/playlist/4FNHFEtaAHc5XfjXJb65qZ" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
-        </div>
+    </div>
 
     <script th:replace="/partials/scripts :: assets"></script>
     <script>
+
+
+
+
+        $("body").css("background-image", 'url("../img/forest.gif")');
+
         $("#choose-playlist").change(function(){
             $(".spotify-embed").css("display", "none");
             $("#" + $(this).val()).css("display", "block");
