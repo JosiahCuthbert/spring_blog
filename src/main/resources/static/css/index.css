@@ -5,9 +5,6 @@ body{
 }
 
 /*tunes*/
-
-
-
 .spotify-embed{
     width: 100%;
     height: 100vh;
@@ -21,10 +18,23 @@ body{
     display: block;
 }
 
+.bg-gif{
+    min-width: 500px;
+}
+
+#forest, #city-skyline, #snowy, #mountain{
+    display:none;
+}
+
+#rainy{
+    object-fit: cover;
+}
+
 #tunes-sidebar{
     background-color: #343a40;
-    width: 350px;
-    height: 100%
+    min-width: 350px;
+    height: 100%;
+    justify-content: flex-start;
 }
 
 #tunes-sidebar label{
