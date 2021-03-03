@@ -19,7 +19,7 @@ public class EmailService {
     @Value("${spring.mail.from}")
     private String from;
 
-    public void prepareAndSend(Post post, String subject, String body) {
+    public void prepareAndSendPost(Post post, String subject, String body) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(from);
         msg.setTo(post.getUser().getEmail());
@@ -35,7 +35,7 @@ public class EmailService {
         }
     }
 
-    public void prepareAndSend(Review review, String subject, String body) {
+    public void prepareAndSendReview(Review review, String subject, String body) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(from);
         msg.setTo(review.getUser().getEmail());

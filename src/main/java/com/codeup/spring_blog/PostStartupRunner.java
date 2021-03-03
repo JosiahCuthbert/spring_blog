@@ -38,22 +38,22 @@ public class PostStartupRunner implements CommandLineRunner {
         user.setPassword(hash);
         user.setUsername("joe");
         user.setEmail("josiah.thomas.cuthbert@gmail.com");
-        userDao.save(user);
+        User savedUser = userDao.save(user);
 
         Post post = new Post();
         post.setTitle("Demo title");
         post.setBody("Demo body");
         post.setType("post");
         post.setImage("post");
-        post.setUser(user);
+        post.setUser(savedUser);
         postDao.save(post);
 
         Review review = new Review();
         review.setTitle("Demo title");
         review.setBody("Demo body");
-        review.setUser(user);
         review.setImage("test");
         review.setRating(4);
+        review.setUser(savedUser);
         reviewDao.save(review);
     }
 }

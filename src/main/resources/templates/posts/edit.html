@@ -10,11 +10,20 @@
 
         <label for="title">Title</label>
         <input type="text" id="title" th:field="*{title}" th:value="${post.title}">
-
+        <br/>
         <label for="body">Body</label>
         <textarea id="body" th:field="*{body}" th:text="${post.body}"></textarea>
-
-        <button type="submit">Update</button>
+        <br/>
+        <label for="type">Type</label>
+        <select th:field="*{type}" id="type" th:value="${post.type}">
+            <option th:value="post">Post</option>
+            <option th:value="recommend">Recommend</option>
+        </select>
+        <br />
+        <label for="img">Select image:</label>
+        <input th:field="*{image}" type="file" id="img" name="img" accept="image/*" th:value="${post.image}">
+        <br/>
+        <input type="submit" value="Update"/>
     </form>
 
     <form th:action="@{|/posts/${post.id}/delete|}" th:method="POST">

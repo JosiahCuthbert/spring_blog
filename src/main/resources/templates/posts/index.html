@@ -1,27 +1,33 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="partials/head :: header-links"></head>
+<link rel="stylesheet" th:href="@{/css/content.css}">
 <body>
 
 <nav th:replace="partials/navbar :: navbar"></nav>
 
 <!-- This is where we iterate through the Posts ArrayList -->
-<h1>Here are all the posts!</h1>
+    <div class="container">
 
-<div th:each="post : ${posts}">
-    <h1 th:text="${post.title}"></h1>
-    <p th:text="${post.body}"></p>
+        <div th:each="post : ${posts}">
+            <h1 th:text="${post.title}"></h1>
+            <img th:src="@{${post.image}}">
 
-    <form th:action="@{|/posts/${post.id}/edit|}">
-        <button>Edit</button>
-    </form>
+            <p th:text="${post.body}"></p>
 
-    <form th:action="@{|/posts/${post.id}|}">
-        <button>View</button>
-    </form>
-</div>
+            <form th:action="@{|/posts/${post.id}/edit|}">
+                <button>Edit</button>
+            </form>
+
+            <form th:action="@{|/posts/${post.id}|}">
+                <button>View</button>
+            </form>
+        </div>
+    </div>
 
 <script th:replace="partials/scripts :: assets"></script>
-
+<!--<script>-->
+<!--    // $(".img-div").html("<img src='fetchImageData?param1=${post.image}>");-->
+<!--</script>-->
 </body>
 </html>

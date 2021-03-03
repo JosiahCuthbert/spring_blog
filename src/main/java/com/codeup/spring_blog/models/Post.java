@@ -1,5 +1,6 @@
 package com.codeup.spring_blog.models;
 import com.sun.istack.Nullable;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 
@@ -23,6 +24,8 @@ public class Post {
 
     @Column(nullable = false)
     private String image;
+
+
 
     public User getUser() {
         return user;

@@ -5,9 +5,16 @@ import com.codeup.spring_blog.models.User;
 import com.codeup.spring_blog.repositories.PostRepository;
 import com.codeup.spring_blog.repositories.UserRepository;
 import com.codeup.spring_blog.services.EmailService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 @Controller
 public class PostController {
@@ -17,6 +24,9 @@ public class PostController {
     private final UserRepository userDao;
 
     private final EmailService emailService;
+
+    @Value("${file-upload-path}")
+    private String uploadPath;
 
     public PostController(PostRepository postDao, UserRepository userDao, EmailService emailService){
         this.postDao = postDao;
@@ -50,11 +60,14 @@ public class PostController {
 
     @PostMapping("/posts/{id}/edit")
     public String editPost(@ModelAttribute Post post){
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        post.setUser(userDao.getOne((loggedInUser.getId())));
+
         postDao.save(post);
 
         String subject = "Post Edited";
         String body = "The post titled " + post.getTitle() + "was edited.";
-        emailService.prepareAndSend(post, subject, body);
+        emailService.prepareAndSendPost(post, subject, body);
         return "redirect:/posts";
     }
 
@@ -65,7 +78,7 @@ public class PostController {
 
         String subject = "Post Deleted";
         String body = "The post titled " + post.getTitle() + "was deleted.";
-        emailService.prepareAndSend(post, subject, body);
+        emailService.prepareAndSendPost(post, subject, body);
         return "redirect:/posts";
     }
 
@@ -76,16 +89,28 @@ public class PostController {
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@ModelAttribute Post post){
+    public String createPost(@ModelAttribute Post post, @RequestParam(name = "img") MultipartFile uploadedFile, Model model){
+        String filename = uploadedFile.getOriginalFilename();
+        String filepath = Paths.get(uploadPath, filename).toString();
+        File destinationFile = new File(filepath);
+        try {
+            uploadedFile.transferTo(destinationFile);
+            model.addAttribute("message", "File successfully uploaded!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.addAttribute("message", "Oops! Something went wrong! " + e);
+        }
+
         User user = userDao.getOne(1L);
         post.setUser(user);
         post.setTitle(post.getTitle());
         post.setBody(post.getBody());
+        post.setImage(filepath);
         postDao.save(post);
 
         String subject = "New Post Created";
         String body = "A new post was created by user " + user.getUsername() + ". The post title is " + post.getTitle() + ".";
-        emailService.prepareAndSend(post, subject, body);
+        emailService.prepareAndSendPost(post, subject, body);
         return "redirect:/posts";
     }
 

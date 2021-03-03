@@ -4,11 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class TunesController {
+public class FeaturesController {
 
-    @GetMapping("/tunes/jazz")
+    @GetMapping("/features/tunes")
     public String jazz(){
-        return "tunes/jazz";
+        return "features/tunes";
     }
 
 }

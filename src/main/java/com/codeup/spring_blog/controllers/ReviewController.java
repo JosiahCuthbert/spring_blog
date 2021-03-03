@@ -53,7 +53,7 @@ public class ReviewController {
 
         String subject = "Review Edited";
         String body = "The review titled " + review.getTitle() + "was edited.";
-        emailService.prepareAndSend(review, subject, body);
+        emailService.prepareAndSendReview(review, subject, body);
         return "redirect:/reviews";
     }
 
@@ -64,7 +64,7 @@ public class ReviewController {
 
         String subject = "Review Deleted";
         String body = "The review titled " + review.getTitle() + "was deleted.";
-        emailService.prepareAndSend(review, subject, body);
+        emailService.prepareAndSendReview(review, subject, body);
         return "redirect:/reviews";
     }
 
@@ -84,7 +84,7 @@ public class ReviewController {
 
         String subject = "New Review Created";
         String body = "A new review was created by user " + user.getUsername() + ". The review title is " + review.getTitle() + ".";
-        emailService.prepareAndSend(review, subject, body);
+        emailService.prepareAndSendReview(review, subject, body);
         return "redirect:/reviews";
     }
 
