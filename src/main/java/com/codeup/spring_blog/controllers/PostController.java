@@ -105,7 +105,7 @@ public class PostController {
         post.setUser(user);
         post.setTitle(post.getTitle());
         post.setBody(post.getBody());
-        post.setImage(filepath);
+        post.setImage("/uploads/" + filename);
         postDao.save(post);
 
         String subject = "New Post Created";
