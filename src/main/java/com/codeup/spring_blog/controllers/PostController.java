@@ -41,7 +41,7 @@ public class PostController {
 
     @GetMapping("/posts")
     public String allPosts(Model model){
-        model.addAttribute("posts", postDao.findAll());
+        model.addAttribute("posts", postDao.getAllByType("post"));
         return "posts/index";
     }
 
@@ -112,6 +112,12 @@ public class PostController {
         String body = "A new post was created by user " + user.getUsername() + ". The post title is " + post.getTitle() + ".";
         emailService.prepareAndSendPost(post, subject, body);
         return "redirect:/posts";
+    }
+
+    @GetMapping("/features/recommends")
+    public String allRecommends(Model model){
+        model.addAttribute("recommends", postDao.getAllByType("recommend"));
+        return "features/recommends";
     }
 
 }

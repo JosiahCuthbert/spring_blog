@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/head :: header-links"></head>
+<link rel="stylesheet" th:href="@{/css/content.css}">
+<body>
+
+<nav th:replace="partials/navbar :: navbar"></nav>
+
+<!-- This is where we iterate through the Posts ArrayList -->
+<div class="container">
+
+    <div th:each="recommend : ${recommends}">
+        <h1 th:text="${recommend.title}"></h1>
+        <img th:src="@{${recommend.image}}">
+
+        <p th:text="${recommend.body}"></p>
+
+        <form th:action="@{|/recommends/${recommend.id}/edit|}">
+            <button>Edit</button>
+        </form>
+
+        <form th:action="@{|/recommends/${recommend.id}|}">
+            <button>View</button>
+        </form>
+    </div>
+</div>
+
+<script th:replace="partials/scripts :: assets"></script>
+<!--<script>-->
+<!--    // $(".img-div").html("<img src='fetchImageData?param1=${recommend.image}>");-->
+<!--</script>-->
+</body>
+</html>
