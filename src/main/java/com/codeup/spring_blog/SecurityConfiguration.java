@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(
-                        "/posts/{id}/edit", "/posts/create"// only authenticated users can edit posts
+                        "/posts/{id}/edit", "/posts/create", "/users/admin", "/users/edit", "/reviews/*", "/features/recommends" // only authenticated users can edit posts
                 )
                 .authenticated()
         ;

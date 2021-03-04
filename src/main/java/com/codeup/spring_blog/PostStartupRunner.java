@@ -37,6 +37,7 @@ public class PostStartupRunner implements CommandLineRunner {
         String hash = encoder.encode("joe1996");
         user.setPassword(hash);
         user.setUsername("joe");
+        user.setAdmin(1);
         user.setEmail("josiah.thomas.cuthbert@gmail.com");
         User savedUser = userDao.save(user);
 
